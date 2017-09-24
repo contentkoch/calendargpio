@@ -51,7 +51,8 @@ def filterEventList(events, LocationClient):
     """
     LocalEvents = []				# Will contain all the relevant future events after filtering by location [ datetime,       'summary'] 
 
-    for event in events:      
+    for event in events:            
+        #print( datetime.strptime( event['start']['dateTime']  )  )
         if LocationClient in event['location'].lower():
             LocalEvents.append( {'starttime':event['start'], 'summary':event['summary']})
 
@@ -75,11 +76,14 @@ def fetch(location, credentialfile):
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     #print('Getting the upcoming 10 events')
+    
     eventsResult = service.events().list(
         calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
 
+    #for m in events:
+     #   print( type( m['start']['dateTime']) )
     
     if not events:
         print('No upcoming events found.')

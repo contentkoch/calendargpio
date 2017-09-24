@@ -1,7 +1,7 @@
 import configparser
 import quickstart
-
-
+import datetime
+import dateutil.parser
 
 
 config = configparser.ConfigParser()
@@ -59,8 +59,9 @@ for entry in filteredList:
         #compare all the calls to the ones from configfile
         
         if CalendarToFunctionMap[call] in entry['summary'].lower():
-            print(entry)
-            print(" ")
+            dt = dateutil.parser.parse (entry['starttime']['dateTime'] )            #wasted 2 hours on this, official google api reference says event starttime datetime should be of type datetime
+            
+            print(dt.strftime('%M %H %d %m'))                                       #minute hour day month
             #todo set up job to set to set gpio pin according to configfile
 
     
